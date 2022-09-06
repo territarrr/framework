@@ -1,10 +1,8 @@
 package page;
 
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.devtools.v101.browser.Browser;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -12,16 +10,13 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-import java.security.Key;
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class CalculatorPage extends  AbstractPage {
@@ -138,10 +133,13 @@ public class CalculatorPage extends  AbstractPage {
         new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIME_IN_SECONDS)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
     }
 
-    public void scrollWindow(String pixelsCountToScroll) {
-        driver.switchTo().window(driver.getWindowHandle());
-        ((JavascriptExecutor)driver).executeScript("window.scrollBy(0,"+pixelsCountToScroll+")", "");
-        switchToContentFrame();
+    public void scrollToElement(WebElement element) {
+        ((JavascriptExecutor)driver).executeScript("""
+                arguments[0].scrollIntoView({
+                            behavior: 'auto',
+                            block: 'center',
+                            inline: 'center'
+                        });""", element);
     }
 
     public void clickComputeEngineTab() {
@@ -153,6 +151,7 @@ public class CalculatorPage extends  AbstractPage {
     }
 
     public void setSelectOption(WebElement select, List<WebElement> selectOptions, String optionValue) {
+        scrollToElement(select);
         select.click();
         for (WebElement selectOption : selectOptions) {
             new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIME_IN_SECONDS)).until(ExpectedConditions.elementToBeClickable(selectOption));
@@ -177,7 +176,6 @@ public class CalculatorPage extends  AbstractPage {
     }
 
     public void enterMachineType(String optionValue) {
-        scrollWindow("500");
         setSelectOption(selectMachineType, activeSelectWithOptionGroupOptions, optionValue);
     }
 
@@ -194,7 +192,6 @@ public class CalculatorPage extends  AbstractPage {
     }
 
     public void enterLocalSSD(String optionValue) {
-        scrollWindow("500");
         setSelectOption(selectLocalSSD, activeSelectOptions, optionValue);
     }
 
@@ -235,24 +232,17 @@ public class CalculatorPage extends  AbstractPage {
     }
 
     public void sendEstimateToEmailButtonClick() {
-        scrollWindow("-500");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        scrollToElement(sendEstimateToEmailButton);
         sendEstimateToEmailButton.click();
-        scrollWindow("1700");
     }
 
     public void pasteEmailToSendEstimateToEmailForm() {
+        scrollToElement(emailPopupFrame);
         driver.switchTo().frame(emailPopupFrame).switchTo().frame(frame);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         try {
             emailInputInSendEstimateToEmailForm.sendKeys((CharSequence) clipboard.getData(DataFlavor.stringFlavor));
-        } catch (UnsupportedFlavorException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (UnsupportedFlavorException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -262,6 +252,6 @@ public class CalculatorPage extends  AbstractPage {
     }
 
     public String getResulltCalculatorEstimateCost() {
-        return calculatorEstimateCost.getText().substring(calculatorEstimateCost.getText().indexOf("USD") + new String("USD").length(), calculatorEstimateCost.getText().indexOf("per")).trim();
+        return calculatorEstimateCost.getText().substring(calculatorEstimateCost.getText().indexOf("USD") + "USD".length(), calculatorEstimateCost.getText().indexOf("per")).trim();
     }
 }
