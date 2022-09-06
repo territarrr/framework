@@ -131,8 +131,17 @@ public class CalculatorPage extends  AbstractPage {
     public CalculatorPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, WAIT_TIME_IN_SECONDS), this);
-        driver.switchTo().frame(parentFrame);
-        driver.switchTo().frame(frame);
+    }
+
+    public void switchToContentFrame(){
+        new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIME_IN_SECONDS)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(parentFrame));
+        new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIME_IN_SECONDS)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
+    }
+
+    public void scrollWindow(String pixelsCountToScroll) {
+        driver.switchTo().window(driver.getWindowHandle());
+        ((JavascriptExecutor)driver).executeScript("window.scrollBy(0,"+pixelsCountToScroll+")", "");
+        switchToContentFrame();
     }
 
     public void clickComputeEngineTab() {
@@ -168,13 +177,7 @@ public class CalculatorPage extends  AbstractPage {
     }
 
     public void enterMachineType(String optionValue) {
-//        driver.switchTo().parentFrame();
-//        driver.switchTo().parentFrame();
-//        JavascriptExecutor js =(JavascriptExecutor) driver;
-//        js.executeScript("window.scrollBy(0,500)", "");
-//        driver.switchTo().frame(parentFrame);
-//        driver.switchTo().frame(frame);
-//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        scrollWindow("500");
         setSelectOption(selectMachineType, activeSelectWithOptionGroupOptions, optionValue);
     }
 
@@ -191,24 +194,11 @@ public class CalculatorPage extends  AbstractPage {
     }
 
     public void enterLocalSSD(String optionValue) {
-//        driver.switchTo().parentFrame();
-//        driver.switchTo().parentFrame();
-//        JavascriptExecutor js =(JavascriptExecutor) driver;
-//        js.executeScript("window.scrollBy(0,500)", "");
-//        driver.switchTo().frame(parentFrame);
-//        driver.switchTo().frame(frame);
-//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        scrollWindow("500");
         setSelectOption(selectLocalSSD, activeSelectOptions, optionValue);
     }
 
     public void enterDatacenterLocation(String optionValue) {
-//        driver.switchTo().parentFrame();
-//        driver.switchTo().parentFrame();
-//        JavascriptExecutor js =(JavascriptExecutor) driver;
-//        js.executeScript("window.scrollBy(0,500)", "");
-//        driver.switchTo().frame(parentFrame);
-//        driver.switchTo().frame(frame);
-//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         setSelectOption(selectDatacenterLocation, activeSelectWithOptionGroupOptions, optionValue);
     }
 
@@ -217,12 +207,6 @@ public class CalculatorPage extends  AbstractPage {
     }
 
     public void clickButtonAddToEstimte() {
-//        driver.switchTo().parentFrame();
-//        driver.switchTo().parentFrame();
-//        JavascriptExecutor js =(JavascriptExecutor) driver;
-//        js.executeScript("window.scrollBy(0,500)", "");
-//        driver.switchTo().frame(parentFrame);
-//        driver.switchTo().frame(frame);
         buttonAddToEstimte.click();
     }
 
@@ -251,7 +235,14 @@ public class CalculatorPage extends  AbstractPage {
     }
 
     public void sendEstimateToEmailButtonClick() {
+        scrollWindow("-500");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         sendEstimateToEmailButton.click();
+        scrollWindow("1700");
     }
 
     public void pasteEmailToSendEstimateToEmailForm() {

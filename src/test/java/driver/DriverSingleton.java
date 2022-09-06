@@ -17,9 +17,9 @@ public class DriverSingleton {
     public static WebDriver getDriver() {
         if (null == driver) {
             switch (System.getProperty("browser")) {
-                case "safari": {
-                    System.setProperty("webdriver.safari.driver", RESOURCES_PATH + "safaridriver");
-                    driver = new SafariDriver();
+                case "firefox": {
+                    System.setProperty("webdriver.gecko.driver", RESOURCES_PATH + "geckodriver");
+                    driver = new FirefoxDriver();
                     break;
                 }
                 default: {
