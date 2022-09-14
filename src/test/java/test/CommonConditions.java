@@ -8,8 +8,9 @@ import page.CalculatorPage;
 import page.GenerateTmpEmailPage;
 import page.MainPage;
 import service.InputAndResultCreator;
+import utils.TestListener;
 
-
+@Listeners({TestListener.class})
 public class CommonConditions {
     protected WebDriver driver;
     CalculatorPage calculatorPage;
