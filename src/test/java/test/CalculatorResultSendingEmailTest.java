@@ -23,6 +23,7 @@ public class CalculatorResultSendingEmailTest extends CommonConditions {
         calculatorPage.pasteEmailToSendEstimateToEmailForm();
         calculatorPage.setSendEstimateToEmailPopupButtonClick();
         String calculatorEstimateCost = calculatorPage.getResulltCalculatorEstimateCost();
+        calculatorEstimateCost = calculatorEstimateCost.substring(calculatorEstimateCost.indexOf("USD") + "USD".length(), calculatorEstimateCost.indexOf("per")).trim();
         String emailEstimateCost;
 
         tabs = new ArrayList<>(driver.getWindowHandles());
@@ -30,6 +31,7 @@ public class CalculatorResultSendingEmailTest extends CommonConditions {
         EmailListPage emailListPage = generateTmpEmail.checkEmailButtonClick();
         emailListPage.openEmail();
         emailEstimateCost = emailListPage.getEstimateEmailCost();
+        emailEstimateCost = emailEstimateCost.substring(emailEstimateCost.indexOf("USD") + new String("USD").length()).trim();
         assertEquals(calculatorEstimateCost, emailEstimateCost);
     }
 }
