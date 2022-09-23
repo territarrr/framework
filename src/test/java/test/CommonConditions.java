@@ -1,6 +1,7 @@
 package test;
 
 import driver.DriverSingleton;
+import model.Calculator;
 import model.InputAndResult;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
@@ -9,6 +10,7 @@ import org.testng.annotations.Listeners;
 import page.CalculatorPage;
 import page.GenerateTmpEmailPage;
 import page.MainPage;
+import service.CalculatorCreator;
 import service.InputAndResultCreator;
 import utils.TestListener;
 
@@ -17,16 +19,8 @@ public class CommonConditions {
     protected WebDriver driver;
     protected CalculatorPage calculatorPage;
     protected GenerateTmpEmailPage generateTmpEmail;
-    protected InputAndResult numberOfInstances = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.numberofinstances.input", "testdata.inputandresult.numberofinstances.result");
-    protected InputAndResult vmClass = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.vmclass.input", "testdata.inputandresult.vmclass.result");
-    protected InputAndResult os = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.os.input", "testdata.inputandresult.os.result");
-    protected InputAndResult instanceType = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.instancetype.input", "testdata.inputandresult.instancetype.result");
-    protected InputAndResult region = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.region.input", "testdata.inputandresult.region.result");
-    protected InputAndResult localSSD = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.localssd.input", "testdata.inputandresult.localssd.result");
-    protected InputAndResult committedUsage = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.committedusage.input", "testdata.inputandresult.committedusage.result");
-    protected InputAndResult series = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.series.input", "testdata.inputandresult.series.result");
-    protected InputAndResult gpuType = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.gputype.input", "testdata.inputandresult.gputype.result");
-    protected InputAndResult gpuCount = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.gpucount.input", "testdata.inputandresult.gpucount.result");
+
+    protected Calculator calculatorData = CalculatorCreator.withCredentialsFromProperty();
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
@@ -40,18 +34,17 @@ public class CommonConditions {
         calculatorPage = mainPage.startSearch("Google Cloud Pricing Calculator").goToResult("Google Cloud Pricing Calculator");
         calculatorPage.switchToContentFrame();
         calculatorPage.clickComputeEngineTab();
-
-        calculatorPage.enterNumberOfInstances(numberOfInstances.getInput());
-        calculatorPage.enterOS(os.getInput());
-        calculatorPage.enterVMClass(vmClass.getInput());
-        calculatorPage.enterSeries(series.getInput());
-        calculatorPage.enterMachineType(instanceType.getInput());
+        calculatorPage.enterNumberOfInstances(calculatorData.getNumberOfInstances().getInput());
+        calculatorPage.enterOS(calculatorData.getOs().getInput());
+        calculatorPage.enterVMClass(calculatorData.getVmClass().getInput());
+        calculatorPage.enterSeries(calculatorData.getSeries().getInput());
+        calculatorPage.enterMachineType(calculatorData.getInstanceType().getInput());
         calculatorPage.setCheckedAddGPUCheckbox();
-        calculatorPage.enterGPUType(gpuType.getInput());
-        calculatorPage.enterGPUCount(gpuCount.getInput());
-        calculatorPage.enterLocalSSD(localSSD.getInput());
-        calculatorPage.enterDatacenterLocation(region.getInput());
-        calculatorPage.enterCommittedUsage(committedUsage.getInput());
+        calculatorPage.enterGPUType(calculatorData.getGpuType().getInput());
+        calculatorPage.enterGPUCount(calculatorData.getGpuCount().getInput());
+        calculatorPage.enterLocalSSD(calculatorData.getLocalSSD().getInput());
+        calculatorPage.enterDatacenterLocation(calculatorData.getRegion().getInput());
+        calculatorPage.enterCommittedUsage(calculatorData.getCommittedUsage().getInput());
         calculatorPage.clickButtonAddToEstimte();
     }
 
