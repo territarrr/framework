@@ -2,36 +2,36 @@ package test;
 
 import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
-public class CalculatorResultTest extends CommonConditions{
+public class CalculatorResultTest extends CommonConditions {
     @Test
     public void compareVmClass() {
-        assertEquals(vmClass.getResult(), calculatorPage.getResultVM());
+        assertEquals(calculatorPage.getResultVM(), vmClass.getResult());
     }
 
     @Test
     public void compareOs() {
-        assertEquals(os.getResult(), calculatorPage.getResultOS());
+        assertEquals(calculatorPage.getResultOS(), os.getResult());
     }
 
     @Test
     public void compareInstanceType() {
-        assertEquals(instanceType.getResult(), calculatorPage.getResultInstanceType());
+        assertEquals(calculatorPage.getResultInstanceType(), instanceType.getResult());
     }
 
     @Test
     public void compareRegion() {
-        assertEquals(region.getResult(), calculatorPage.getResultRegion());
+        assertEquals(calculatorPage.getResultRegion(), region.getResult());
     }
 
     @Test
     public void compareLocalSSD() {
-        assertEquals(localSSD.getResult(), calculatorPage.getResultLocalSSD());
+        assertEquals(calculatorPage.getResultLocalSSD(), localSSD.getResult());
     }
 
     @Test
     public void compareCommittedUsage() {
-        assertEquals(committedUsage.getResult(), calculatorPage.getResultCommitmentTerm());
+        assertEquals(calculatorPage.getResultCommitmentTerm(), committedUsage.getResult());
     }
 }

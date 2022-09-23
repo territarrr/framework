@@ -3,7 +3,9 @@ package test;
 import driver.DriverSingleton;
 import model.InputAndResult;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import page.CalculatorPage;
 import page.GenerateTmpEmailPage;
 import page.MainPage;
@@ -13,20 +15,20 @@ import utils.TestListener;
 @Listeners({TestListener.class})
 public class CommonConditions {
     protected WebDriver driver;
-    CalculatorPage calculatorPage;
-    GenerateTmpEmailPage generateTmpEmail;
-    InputAndResult numberOfInstances = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.numberofinstances.input", "testdata.inputandresult.numberofinstances.result");
-    InputAndResult vmClass = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.vmclass.input", "testdata.inputandresult.vmclass.result");
-    InputAndResult os = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.os.input", "testdata.inputandresult.os.result");
-    InputAndResult instanceType = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.instancetype.input", "testdata.inputandresult.instancetype.result");
-    InputAndResult region = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.region.input", "testdata.inputandresult.region.result");
-    InputAndResult localSSD = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.localssd.input", "testdata.inputandresult.localssd.result");
-    InputAndResult committedUsage = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.committedusage.input", "testdata.inputandresult.committedusage.result");
-    InputAndResult series = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.series.input", "testdata.inputandresult.series.result");
-    InputAndResult gpuType = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.gputype.input", "testdata.inputandresult.gputype.result");
-    InputAndResult gpuCount = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.gpucount.input", "testdata.inputandresult.gpucount.result");
+    protected CalculatorPage calculatorPage;
+    protected GenerateTmpEmailPage generateTmpEmail;
+    protected InputAndResult numberOfInstances = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.numberofinstances.input", "testdata.inputandresult.numberofinstances.result");
+    protected InputAndResult vmClass = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.vmclass.input", "testdata.inputandresult.vmclass.result");
+    protected InputAndResult os = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.os.input", "testdata.inputandresult.os.result");
+    protected InputAndResult instanceType = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.instancetype.input", "testdata.inputandresult.instancetype.result");
+    protected InputAndResult region = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.region.input", "testdata.inputandresult.region.result");
+    protected InputAndResult localSSD = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.localssd.input", "testdata.inputandresult.localssd.result");
+    protected InputAndResult committedUsage = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.committedusage.input", "testdata.inputandresult.committedusage.result");
+    protected InputAndResult series = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.series.input", "testdata.inputandresult.series.result");
+    protected InputAndResult gpuType = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.gputype.input", "testdata.inputandresult.gputype.result");
+    protected InputAndResult gpuCount = InputAndResultCreator.withCredentialsFromProperty("testdata.inputandresult.gpucount.input", "testdata.inputandresult.gpucount.result");
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         driver = DriverSingleton.getDriver();
         driverSetup();
@@ -53,7 +55,7 @@ public class CommonConditions {
         calculatorPage.clickButtonAddToEstimte();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void stopBrowser() {
         DriverSingleton.closeDriver();
     }

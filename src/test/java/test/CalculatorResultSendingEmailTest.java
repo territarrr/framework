@@ -3,9 +3,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.testng.annotations.Test;
 import page.EmailListPage;
 import page.GenerateTmpEmailPage;
-
 import java.util.ArrayList;
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 public class CalculatorResultSendingEmailTest extends CommonConditions {
     @Test
@@ -31,6 +30,6 @@ public class CalculatorResultSendingEmailTest extends CommonConditions {
         EmailListPage emailListPage = generateTmpEmail.checkEmailButtonClick();
         emailListPage.openEmail();
         emailEstimateCost = emailListPage.getEstimateEmailCost();
-        assertEquals(emailEstimateCost, calculatorEstimateCost);
+        assertEquals(calculatorEstimateCost, emailEstimateCost);
     }
 }
